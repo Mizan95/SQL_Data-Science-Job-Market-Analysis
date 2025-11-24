@@ -1,5 +1,5 @@
-/* ❓What are the 100 top paying Data Scientist jobs and for which companies?❓
-We will return the above analysis with two approaches in our SQL queries. After both approaches is my conclusion describing which
+/* ❓What are the 100 top paying Data Scientist jobs and which companies are hiring?
+I will return the above analysis with two approaches in our SQL queries. After both approaches is my conclusion describing which
 approach is best practice.
 The first approach is using a CTE (Common Table Expression).
 The second approach is using a subquery.
