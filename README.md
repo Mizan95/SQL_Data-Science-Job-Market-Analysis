@@ -2,10 +2,10 @@ TODO: update the content of this later
 
 1. What are the 500 top paying jobs for my role?
 
-2. What are the skills required for these 500 top-paying roles?
+2. What are the skills required for these 100 top-paying roles?
 
 3. What are the most in demand skills for my role?
-data scientist roles, top skills overall (not top 500)
+data scientist roles, top skills overall 
 
 4. What are the top skills based on salary for my role?
 top skills classified by salary (AVG salary year)
