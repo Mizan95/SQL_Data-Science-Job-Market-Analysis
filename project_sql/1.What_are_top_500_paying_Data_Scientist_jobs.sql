@@ -1,9 +1,9 @@
-/* ❓What are the 100 top paying Data Scientist jobs and which companies are hiring?
+/* ❓What are the 500 top paying Data Scientist jobs in the UK and which companies are hiring for these roles?
 I will return the above analysis with two approaches in our SQL queries. After both approaches is my conclusion describing which
 approach is best practice.
-The first approach is using a CTE (Common Table Expression).
-The second approach is using a subquery.
-Within  both approaches, comments are visible to explain the logic.
+The first approach is by using a CTE.
+And the second is without.
+Comments are visible to explain the logic.
 */
 
 
@@ -43,7 +43,8 @@ INNER JOIN company_list ON job_postings.company_id = company_list.company_id
 -- Filter out NULL value in salary and only choose Data Scientist jobs
 WHERE
     salary_year_avg IS NOT NULL AND
-    job_title_short = 'Data Scientist'
+    job_title_short = 'Data Scientist' AND
+    job_location = 'United Kingdom'
 -- Show results in descending order based on salaries
 ORDER BY
     salary DESC
@@ -52,7 +53,7 @@ LIMIT
     500;
 
 /*
-*-*-*-*- Below is the second approach using a Subquery *-*-*-*-
+*-*-*-*- Below is the second approach without a CTE *-*-*-*-
 */
 
 /*
@@ -72,16 +73,11 @@ FROM
     job_postings_fact AS job_postings
 -- Inner join with company_dim table to retrieve company name
 INNER JOIN company_dim ON job_postings.company_id = company_dim.company_id
--- Subquery to retrieve company name 
 WHERE 
-    job_postings.company_id IN (
-    SELECT company_dim.company_id
-    FROM company_dim
-) 
 -- Filter out NULL value in salary and only choose Data Scientist jobs
-AND
     job_postings.salary_year_avg IS NOT NULL AND
-    job_postings.job_title_short = 'Data Scientist'
+    job_postings.job_title_short = 'Data Scientist' AND
+    job_location = 'United Kingdom'
 -- Show results in descending order based on salaries
 ORDER BY
     salary DESC
@@ -90,10 +86,3 @@ LIMIT
     500
 
 
-/*
-CONCLUSION
-It is best practice to use the first approach with a CTE as this enables the CTE to be used multiple times for different queries.
-It also aligns with the spirit of maintainable code. This is because the CTE can be customised within that single code block.
-Whereas, subqueries will all have to be customised in all their separate instances.
-Using a CTE also contributes to more readable code. 
-*/
