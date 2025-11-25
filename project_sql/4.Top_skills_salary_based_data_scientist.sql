@@ -1,5 +1,6 @@
-/*3. What are the most in demand skills for data scientist roles overall
-This approach also uses two 'daisy-chained' CTEs as a clean maintainable solution. And thereafter a main query to do an inner join of both CTEs.
+/*
+4. What are the top skills based on salary for my role?
+This approach also uses two 'daisy-chained' CTEs as a clean maintainable solution. And thereafter a main query containing an inner join of both CTEs.
 Comments are present to explain the logic.
 */
 
@@ -23,18 +24,20 @@ data_scientist_jobs AS (
     job_country
     FROM job_postings_fact
     WHERE
-        job_title_short = 'Data Scientist'
+        job_title_short = 'Data Scientist' AND
+        salary_year_avg IS NOT NULL
 )
 
--- Main query: Counts number of Job IDs and aggregates this based on each skill
--- This is facilitated by an Inner Join between both CTEs
-SELECT
-    COUNT(data_scientist_jobs.job_id) AS number_of_jobs,
+-- Main query: Sums and averages salaries and aggregates these stats based on each skill
+-- This is facilitated by an Inner Join between both CTEs 
+    SUM(data_scientist_jobs.salary) AS total_salary,
+    AVG(data_scientist_jobs.salary) AS avg_salary,
     skill_name
 FROM
     data_scientist_jobs
-INNER JOIN skills_job_table ON data_scientist_jobs.job_id = skills_job_table.job_id
+INNER JOIN
+    skills_job_table ON data_scientist_jobs.job_id = skills_job_table.job_id
 GROUP BY
-    skill_name
-ORDER BY
-    number_of_jobs DESC
+  skill_name
+ORDER BY total_salary DESC
+
