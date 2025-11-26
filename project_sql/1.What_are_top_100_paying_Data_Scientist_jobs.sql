@@ -1,4 +1,4 @@
-/* ❓What are the 100 top paying Data Scientist jobs and which companies are hiring for these roles?
+/* ❓What are the 100 top paying Data Scientist jobs and which companies are hiring for them?
 Comments are visible to explain the logic.
 */
 

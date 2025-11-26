@@ -1,14 +1,250 @@
-TODO: update the content of this later
+# Introduction
+📈This is a data analysis project of the global data job market for the year 2023. It focuses on the role of Data Scientist. It explores top paying Data Scientist jobs, in-demand skills and where high demand meets a high salary.
 
-1. What are the 500 top paying jobs for my role?
+🔎SQL queries can be found here: [project_sql folder](/project_sql/)
 
-2. What are the skills required for these 100 top-paying roles?
+# Tools I used
+For this deep dive, I harnessed the power of the following tools:
 
-3. What are the most in demand skills for my role?
-data scientist roles, top skills overall 
+- **SQL:** This allowed me to query the database and unearth the insights
+- **PosgreSQL:** The database management system ideal for handling the data
+- **Visual Studio Code:** My ideal code editor for executing SQL queries
+- **Git and GitHub:** An essential for version control, and sharing my SQL queries and overall data analysis.
 
-4. What are the top skills based on salary for my role?
-top skills classified by salary (AVG salary year)
+# My Approach
+My approach to this analysis was to implement a scalable and maintainable code base. In other words, reduce the amount of redundant lines of code and enable efficient querying.
+The way I achieved this, was that I generated reusable modules of CTEs. These CTEs were the foundation of the main queries found within each SQL file (to the exception of file 1 where there is no CTE).
+To make my code less error prone, these CTE modules handled joins, so there was no need to perform any joins in my main queries. This also reduced the chance of reference errors within my code base.
 
-5. What are the most optimal skills to learn?
+# The Analysis
+Each query was aimed at investigating different aspects of the Data Scientist job market with a main focus on skills and salary.
+
+### Top 100 paying Data Scientist jobs and which companies are hiring for them
+To identify top 100 paying Data Scientist jobs, I filtered and ordered the data based on overage yearly salary. I then merged the fact table with a dimension table to show which companies were hiring for these roles.
+
+```sql
+SELECT 
+    job_title_short AS job_title,
+    company_dim.name AS company_name,
+    job_country AS country,
+    ROUND((job_postings.salary_year_avg), 0) AS salary
+FROM 
+    job_postings_fact AS job_postings
+-- Inner join with company_dim table to retrieve company name
+INNER JOIN company_dim ON job_postings.company_id = company_dim.company_id
+WHERE 
+-- Filter out NULL value in salary and only choose Data Scientist jobs
+    job_postings.salary_year_avg IS NOT NULL AND
+    job_postings.job_title_short = 'Data Scientist'
+-- Show results in descending order based on salaries
+ORDER BY
+    salary DESC
+-- Limit result set to 100
+LIMIT
+    100
+
+```
+
+Breakdown of top Data Scientist jobs of 2023
+
+- The maximum salary in this set is an outlier at $960,000.00, offered by East River Electric Power Cooperative, Inc.
+- The average salary for these elite roles is approximately $339,611.22, reflecting the highest compensation tier in data science.
+- The minimum salary in the top 100 is still exceptionally high at $274,675.00, setting a very high floor for the best-paid positions.
+- The median salary of $336,110.00 is very close to the average, indicating that most of the top 100 jobs offer uniformly high pay, with few major dips.
+- The vast majority of these highest-paying roles, 87 out of 100, are located in the United States demonstrating its dominance in the market for elite data science compensation.
+
+### Top 10 skills required for the top-paying 500 Data Scientist jobs
+To identify top 10 skills required for the top-paying 500 Data Scientist jobs, I generated two CTEs as the foundation of my query. Then I merged both CTEs with an INNER JOIN and filtered out NULL values.
+
+```sql
+-- CTE 1: Maps Job IDs with Skill Dimension table
+WITH skills_job_table AS (
+    SELECT
+        skills_to_job.job_id,
+        skills_to_job.skill_id,
+        skills_dim.skills AS skill_name
+    FROM
+        skills_job_dim AS skills_to_job
+    LEFT OUTER JOIN skills_dim ON skills_to_job.skill_id = skills_dim.skill_id
+),
+
+-- CTE 2: Selects the top 500 job IDs for 'Data Scientist' roles based  on the highest yearly salary.
+top_data_scientist_jobs AS (
+    SELECT
+        job_id,
+        job_title_short AS job_title,
+        salary_year_avg AS salary,
+        job_country
+    FROM job_postings_fact
+    WHERE
+        job_title_short = 'Data Scientist' AND
+        salary_year_avg IS NOT NULL
+    ORDER BY
+        salary_year_avg DESC
+    LIMIT
+        500
+)
+
+-- Main Query: Aggregates skills for the jobs identified in the top_data_scientist_jobs CTE and orders the result.
+-- Additionally, I have ranked them by number of jobs
+-- NULL value are also removed from the result
+SELECT
+    ROW_NUMBER() OVER (ORDER BY COUNT(top_data_scientist_jobs.job_id) DESC) AS ranking,
+    skills_job_table.skill_name AS skill_name,
+    COUNT(top_data_scientist_jobs.job_id) AS number_of_jobs
+FROM
+    top_data_scientist_jobs
+INNER JOIN skills_job_table ON top_data_scientist_jobs.job_id = skills_job_table.job_id
+WHERE
+    skill_name IS NOT NULL
+GROUP BY
+    skill_name
+ORDER BY
+    number_of_jobs DESC
+LIMIT
+    20;
+```
+
+### Top 20 skills for Data Scientist roles overall
+To identify top 20 skills for Data Scientist roles overall, I also used two CTEs as the foundation of my query. Then, I aggregated the data which was facilitated by an INNER JOIN of both CTEs.
+
+```sql
+-- CTE 1: Maps Job IDs with Skill Dimension table
+WITH skills_job_table AS (
+    SELECT
+        skills_to_job.job_id,
+        skills_to_job.skill_id,
+        skills_dim.skills AS skill_name
+    FROM
+        skills_job_dim AS skills_to_job
+    LEFT OUTER JOIN skills_dim ON skills_to_job.skill_id = skills_dim.skill_id
+),
+
+-- CTE 2: Selects all job IDs for 'Data Scientist' roles based across entire data set
+data_scientist_jobs AS (
+    SELECT
+    job_id,
+    job_title_short AS job_title,
+    salary_year_avg AS salary,
+    job_country
+    FROM job_postings_fact
+    WHERE
+        job_title_short = 'Data Scientist'
+)
+
+-- Main query: Counts number of Job IDs and aggregates this based on each skill
+-- This is facilitated by an Inner Join between both CTEs
+SELECT
+    COUNT(data_scientist_jobs.job_id) AS number_of_jobs,
+    skill_name
+FROM
+    data_scientist_jobs
+INNER JOIN skills_job_table ON data_scientist_jobs.job_id = skills_job_table.job_id
+GROUP BY
+    skill_name
+ORDER BY
+    number_of_jobs DESC
+LIMIT
+    20
+```
+
+### Top 20 skills for Data Scientist roles based on combined and average salaries
+To identify top 20 skills based on salary for Data Scientist roles, I also used two CTEs as the foundation of my query. Then, I aggregated the data which was facilitated by an INNER JOIN of both CTEs. 
+
+```sql
+-- CTE 1: Maps Job IDs with Skill Dimension table
+WITH skills_job_table AS (
+    SELECT
+        skills_to_job.job_id,
+        skills_to_job.skill_id,
+        skills_dim.skills AS skill_name
+    FROM
+        skills_job_dim AS skills_to_job
+    LEFT OUTER JOIN skills_dim ON skills_to_job.skill_id = skills_dim.skill_id
+),
+
+-- CTE 2: Selects all job IDs for 'Data Scientist' roles based across entire data set
+data_scientist_jobs AS (
+    SELECT
+    job_id,
+    job_title_short AS job_title,
+    salary_year_avg AS salary,
+    job_country
+    FROM job_postings_fact
+    WHERE
+        job_title_short = 'Data Scientist' AND
+        salary_year_avg IS NOT NULL
+)
+
+-- Main query: Sums and averages salaries and aggregates these results based on each skill
+-- This is facilitated by an Inner Join between both CTEs 
+SELECT
+    ROUND(SUM(data_scientist_jobs.salary), 0) AS total_salary,
+    ROUND(AVG(data_scientist_jobs.salary), 0) AS avg_salary,
+    skill_name
+FROM
+    data_scientist_jobs
+INNER JOIN
+    skills_job_table ON data_scientist_jobs.job_id = skills_job_table.job_id
+GROUP BY
+  skill_name
+ORDER BY total_salary DESC
+LIMIT
+    20
+```
+
+### Top 20 Optimal skills for Data Scientist roles overall
+To identify optimal skills to learn for Data Scientist roles overall, I once again used two CTEs as the foundation of my query. I then aggregated the data which was facilitated by an INNER JOIN of both CTEs.
+
+```sql
+-- CTE 1: Maps Job IDs with Skill Dimension table
+WITH skills_job_table AS (
+    SELECT
+        skills_to_job.job_id,
+        skills_to_job.skill_id,
+        skills_dim.skills AS skill_name
+    FROM
+        skills_job_dim AS skills_to_job
+    LEFT OUTER JOIN skills_dim ON skills_to_job.skill_id = skills_dim.skill_id
+),
+
+-- CTE 2: Selects all job IDs for 'Data Scientist' roles based across entire data set
+data_scientist_jobs AS (
+    SELECT
+    job_id,
+    job_title_short AS job_title,
+    salary_year_avg AS salary,
+    job_country
+    FROM job_postings_fact
+    WHERE
+        job_title_short = 'Data Scientist' AND
+        salary_year_avg IS NOT NULL
+)
+
+-- Main query: Sums salaries and Counts jobs and then, aggregates these results based on each skill
+-- This is facilitated by an Inner Join between both CTEs 
+SELECT
+    ROUND(SUM(data_scientist_jobs.salary), 0) AS total_salary,
+    COUNT(data_scientist_jobs.job_id) AS number_of_jobs,
+    skill_name
+FROM
+    data_scientist_jobs
+INNER JOIN
+    skills_job_table ON data_scientist_jobs.job_id = skills_job_table.job_id
+GROUP BY
+  skill_name
+ORDER BY 
+  number_of_jobs DESC
+LIMIT
+    20
+```
+
+# What I learned
+
+
+
+# Conclusions
+
+
+
 
