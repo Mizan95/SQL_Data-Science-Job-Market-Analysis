@@ -31,8 +31,8 @@ data_scientist_jobs AS (
 -- Main query: Sums and averages salaries and aggregates these results based on each skill
 -- This is facilitated by an Inner Join between both CTEs 
 SELECT
-    SUM(data_scientist_jobs.salary) AS total_salary,
-    AVG(data_scientist_jobs.salary) AS avg_salary,
+    ROUND(SUM(data_scientist_jobs.salary), 0) AS total_salary,
+    ROUND(AVG(data_scientist_jobs.salary), 0) AS avg_salary,
     skill_name
 FROM
     data_scientist_jobs
@@ -58,103 +58,103 @@ Analysis
 
 [
   {
-    "total_salary": "595267751.56640625",
-    "avg_salary": "138049.107506123898",
+    "total_salary": "595267752",
+    "avg_salary": "138049",
     "skill_name": "python"
   },
   {
-    "total_salary": "436194498.89453125",
-    "avg_salary": "138430.497903691288",
+    "total_salary": "436194499",
+    "avg_salary": "138430",
     "skill_name": "sql"
   },
   {
-    "total_salary": "336021244.51171875",
-    "avg_salary": "135165.424180096038",
+    "total_salary": "336021245",
+    "avg_salary": "135165",
     "skill_name": "r"
   },
   {
-    "total_salary": "168230566.0703125",
-    "avg_salary": "131635.810696645149",
+    "total_salary": "168230566",
+    "avg_salary": "131636",
     "skill_name": "tableau"
   },
   {
-    "total_salary": "151178759.0781250",
-    "avg_salary": "122909.560226117886",
+    "total_salary": "151178759",
+    "avg_salary": "122910",
     "skill_name": "sas"
   },
   {
-    "total_salary": "141083006.3281250",
-    "avg_salary": "138861.226700910433",
+    "total_salary": "141083006",
+    "avg_salary": "138861",
     "skill_name": "aws"
   },
   {
-    "total_salary": "136601278.2421875",
-    "avg_salary": "144398.814209500529",
+    "total_salary": "136601278",
+    "avg_salary": "144399",
     "skill_name": "spark"
   },
   {
-    "total_salary": "91944925.3515625",
-    "avg_salary": "143439.821141283151",
+    "total_salary": "91944925",
+    "avg_salary": "143440",
     "skill_name": "tensorflow"
   },
   {
-    "total_salary": "82794848.5000000",
-    "avg_salary": "132897.028089887640",
+    "total_salary": "82794849",
+    "avg_salary": "132897",
     "skill_name": "azure"
   },
   {
-    "total_salary": "82337830.5078125",
-    "avg_salary": "145989.061184064716",
+    "total_salary": "82337831",
+    "avg_salary": "145989",
     "skill_name": "pytorch"
   },
   {
-    "total_salary": "82130354.4921875",
-    "avg_salary": "136429.160286025748",
+    "total_salary": "82130354",
+    "avg_salary": "136429",
     "skill_name": "hadoop"
   },
   {
-    "total_salary": "76873608.7890625",
-    "avg_salary": "124592.558815336305",
+    "total_salary": "76873609",
+    "avg_salary": "124593",
     "skill_name": "excel"
   },
   {
-    "total_salary": "72800375.4218750",
-    "avg_salary": "130700.853540170557",
+    "total_salary": "72800375",
+    "avg_salary": "130701",
     "skill_name": "java"
   },
   {
-    "total_salary": "66507256.781250",
-    "avg_salary": "138268.725116943867",
+    "total_salary": "66507257",
+    "avg_salary": "138269",
     "skill_name": "pandas"
   },
   {
-    "total_salary": "57996954.6718750",
-    "avg_salary": "118603.179288087935",
+    "total_salary": "57996955",
+    "avg_salary": "118603",
     "skill_name": "power bi"
   },
   {
-    "total_salary": "55576609.140625",
-    "avg_salary": "141777.064134247449",
+    "total_salary": "55576609",
+    "avg_salary": "141777",
     "skill_name": "scikit-learn"
   },
   {
-    "total_salary": "55266509.968750",
-    "avg_salary": "145056.456610892388",
+    "total_salary": "55266510",
+    "avg_salary": "145056",
     "skill_name": "scala"
   },
   {
-    "total_salary": "46599158.578125",
-    "avg_salary": "147465.691702927215",
+    "total_salary": "46599159",
+    "avg_salary": "147466",
     "skill_name": "go"
   },
   {
-    "total_salary": "46352107.5625000",
-    "avg_salary": "123276.881815159574",
+    "total_salary": "46352108",
+    "avg_salary": "123277",
     "skill_name": "git"
   },
   {
-    "total_salary": "46348237.21875",
-    "avg_salary": "136720.463772123894",
+    "total_salary": "46348237",
+    "avg_salary": "136720",
     "skill_name": "numpy"
   }
 ]

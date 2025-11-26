@@ -32,7 +32,7 @@ data_scientist_jobs AS (
 -- Main query: Sums salaries and Counts jobs and then, aggregates these results based on each skill
 -- This is facilitated by an Inner Join between both CTEs 
 SELECT
-    SUM(data_scientist_jobs.salary) AS total_salary,
+    ROUND(SUM(data_scientist_jobs.salary), 0) AS total_salary,
     COUNT(data_scientist_jobs.job_id) AS number_of_jobs,
     skill_name
 FROM
@@ -57,102 +57,102 @@ Analysis
 
 [
   {
-    "total_salary": "595267751.56640625",
+    "total_salary": "595267752",
     "number_of_jobs": "4312",
     "skill_name": "python"
   },
   {
-    "total_salary": "436194498.89453125",
+    "total_salary": "436194499",
     "number_of_jobs": "3151",
     "skill_name": "sql"
   },
   {
-    "total_salary": "336021244.51171875",
+    "total_salary": "336021245",
     "number_of_jobs": "2486",
     "skill_name": "r"
   },
   {
-    "total_salary": "168230566.0703125",
+    "total_salary": "168230566",
     "number_of_jobs": "1278",
     "skill_name": "tableau"
   },
   {
-    "total_salary": "151178759.0781250",
+    "total_salary": "151178759",
     "number_of_jobs": "1230",
     "skill_name": "sas"
   },
   {
-    "total_salary": "141083006.3281250",
+    "total_salary": "141083006",
     "number_of_jobs": "1016",
     "skill_name": "aws"
   },
   {
-    "total_salary": "136601278.2421875",
+    "total_salary": "136601278",
     "number_of_jobs": "946",
     "skill_name": "spark"
   },
   {
-    "total_salary": "91944925.3515625",
+    "total_salary": "91944925",
     "number_of_jobs": "641",
     "skill_name": "tensorflow"
   },
   {
-    "total_salary": "82794848.5000000",
+    "total_salary": "82794849",
     "number_of_jobs": "623",
     "skill_name": "azure"
   },
   {
-    "total_salary": "76873608.7890625",
+    "total_salary": "76873609",
     "number_of_jobs": "617",
     "skill_name": "excel"
   },
   {
-    "total_salary": "82130354.4921875",
+    "total_salary": "82130354",
     "number_of_jobs": "602",
     "skill_name": "hadoop"
   },
   {
-    "total_salary": "82337830.5078125",
+    "total_salary": "82337831",
     "number_of_jobs": "564",
     "skill_name": "pytorch"
   },
   {
-    "total_salary": "72800375.4218750",
+    "total_salary": "72800375",
     "number_of_jobs": "557",
     "skill_name": "java"
   },
   {
-    "total_salary": "57996954.6718750",
+    "total_salary": "57996955",
     "number_of_jobs": "489",
     "skill_name": "power bi"
   },
   {
-    "total_salary": "66507256.781250",
+    "total_salary": "66507257",
     "number_of_jobs": "481",
     "skill_name": "pandas"
   },
   {
-    "total_salary": "55576609.140625",
+    "total_salary": "55576609",
     "number_of_jobs": "392",
     "skill_name": "scikit-learn"
   },
   {
-    "total_salary": "55266509.968750",
+    "total_salary": "55266510",
     "number_of_jobs": "381",
     "skill_name": "scala"
   },
   {
-    "total_salary": "46352107.5625000",
+    "total_salary": "46352108",
     "number_of_jobs": "376",
     "skill_name": "git"
   },
   {
-    "total_salary": "46348237.21875",
+    "total_salary": "46348237",
     "number_of_jobs": "339",
     "skill_name": "numpy"
   },
   {
-    "total_salary": "46599158.578125",
+    "total_salary": "46599159",
     "number_of_jobs": "316",
     "skill_name": "go"
   }
