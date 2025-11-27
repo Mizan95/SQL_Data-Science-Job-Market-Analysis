@@ -313,9 +313,9 @@ Analysis of top 20 skills for all Data Scientist jobs and their combined salarie
 # What I learned
 In this project, I learned and upskilled on key SQL techniques and best practises. 
 
-- **Crafting complex yet simple queries**: I crafted complex queries in terms of their functionality. Yet, they were easy on their syntax and keeping the code concise and easy to read. This was especially so in my CTE component approach where I resused components in my project as a scalable and maintenanble solution.
-- **Data aggregation**: I became very confortable with aggregating data with SQL code and expnading the basic logic by combining aggregations across CTEs.
-- **Problem solving capabilities**: I increased my problem-solving skills especially so when I had to plan the most appropriate approach, when turning my initial questions into insightful SQL queries. 
+- **Crafting complex yet simple queries**: I crafted complex queries in terms of their functionality. Yet, they were easy in their syntax and I keept the code concise and easy to read. This was especially so in my CTE component approach where I resused components in my project as a scalable and maintenanble solution.
+- **Data aggregation**: I became very confortable with aggregating data with SQL code and expanding the fundamental logic by combining aggregations across CTEs.
+- **Problem solving capabilities**: I increased my problem-solving skills especially so when I had to plan the most appropriate approach when turning my initial questions into insightful SQL queries. 
 
 
 # Conclusions
